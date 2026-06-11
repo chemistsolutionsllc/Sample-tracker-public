@@ -1,0 +1,16 @@
+{
+  "lastUpdated": "Not yet connected to SharePoint",
+  "samples": [
+    {
+      "sampleId": "TEST-001",
+      "batchId": "Batch-A",
+      "project": "Example Project",
+      "sampleStatus": "In Progress",
+      "currentLocation": "Example Location",
+      "plannedIrradiationDate": "",
+      "irradiationDate": "",
+      "estimatedCompletionDate": "",
+      "completionDate": ""
+    }
+  ]
+}

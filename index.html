@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sample Tracker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background: #f7f7f7;
+      color: #222;
+    }
+
+    h1 {
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      color: #555;
+      margin-bottom: 25px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      background: white;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: #eeeeee;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background: #fafafa;
+    }
+
+    .last-updated {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sample Tracker</h1>
+  <div class="subtitle">Public-facing sample tracking table</div>
+
+  <table id="sample-table">
+    <thead>
+      <tr>
+        <th>Sample ID</th>
+        <th>Batch ID</th>
+        <th>Project</th>
+        <th>Sample Status</th>
+        <th>Current Location</th>
+        <th>Planned Irradiation Date</th>
+        <th>Irradiation Date</th>
+        <th>Estimated Completion Date</th>
+        <th>Completion Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td colspan="9">Loading sample data...</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="last-updated" id="last-updated"></div>
+
+  <script>
+    async function loadData() {
+      try {
+        const response = await fetch("data.json?cacheBust=" + new Date().getTime());
+        const data = await response.json();
+
+        const tbody = document.querySelector("#sample-table tbody");
+        tbody.innerHTML = "";
+
+        data.samples.forEach(sample => {
+          const row = document.createElement("tr");
+
+          row.innerHTML = `
+            <td>${sample.sampleId || ""}</td>
+            <td>${sample.batchId || ""}</td>
+            <td>${sample.project || ""}</td>
+            <td>${sample.sampleStatus || ""}</td>
+            <td>${sample.currentLocation || ""}</td>
+            <td>${sample.plannedIrradiationDate || ""}</td>
+            <td>${sample.irradiationDate || ""}</td>
+            <td>${sample.estimatedCompletionDate || ""}</td>
+            <td>${sample.completionDate || ""}</td>
+          `;
+
+          tbody.appendChild(row);
+        });
+
+        document.getElementById("last-updated").textContent =
+          "Last updated: " + (data.lastUpdated || "Unknown");
+      } catch (error) {
+        const tbody = document.querySelector("#sample-table tbody");
+        tbody.innerHTML = "<tr><td colspan='9'>Unable to load sample data.</td></tr>";
+      }
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
